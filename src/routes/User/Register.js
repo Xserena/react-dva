@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
-import {Form, Input, Button} from 'antd';
+import React, { Component, PureComponent } from 'react';
+// import {Form, Input, Button} from 'antd';
 import Icon from 'Assets/icon.png';
-import style from './account.less'
+import style from './account.less';
+import { validEmpty } from './validate'
 
-export default class extends Component {
+export default class extends PureComponent {
+    state = {
+        emailEmpty: false,
+        pwdEmpty: false,
+        pwdCheck: false,
+    }
     render() {
         return (
             <div className={style.account}>
-                <img src={Icon} alt=""/>
-                <Form className="account-from" >
-                <div>
-                    <p>邮箱：haha</p>
-                    <input type="text"/>
+                <div className={style.icon}>
+                    <img src={Icon} alt=""/>
                 </div>
+                {/* <Form className="account-from" > */}
                     {/* <Form.Item label="邮箱">
                         <Input />
                     </Form.Item> */}
@@ -27,8 +31,58 @@ export default class extends Component {
                             注册
                         </Button>
                     </Form.Item> */}
-                </Form>
-            </div>
+                {/* </Form> */}
+                <div>
+                    <p>邮箱：</p>
+                    <input type="text" className={style.input} ref={input => this.inputEmail = input}/>
+                </div>
+                <p className={this.state.emailEmpty ? style.markTrue : style.markFalse}>邮箱不能为空</p>
+                <div>
+                    <p>密码：</p>
+                    <input type="password" className={style.input} ref={input => this.inputPwd = input}/>
+                </div>
+                <p className={this.state.pwdEmpty ? style.markTrue : style.markFalse}>密码不能为空</p>
+                <div>
+                    <p>确认密码：</p>
+                    <input type="password" className={style.checkinput} ref={input => this.inputCheckPwd = input}/>
+                </div>
+                <p className={this.state.pwdCheck ? style.markTrue : style.markFalse}>密码不一致</p>
+                <div>
+                    <button className={style.btn} onClick={this.checkValue}>注册</button>
+                </div>
+                </div>
         )
+    }
+    checkValue = () => {
+        const email = this.inputEmail.value;
+        const pwd = this.inputPwd.value;
+        const checkPwd = this.inputCheckPwd.value;
+        if (validEmpty(email)) {
+            this.setState({
+                emailEmpty: true,
+            })
+        } else {
+            this.setState({
+                emailEmpty: false,
+            })
+        }
+        if (validEmpty(pwd)) {
+            this.setState({
+                pwdEmpty: true,
+            })
+        }else {
+            this.setState({
+                pwdEmpty: false,
+            })
+        }
+        if (pwd !== checkPwd) {
+            this.setState({
+                pwdCheck: true,
+            })
+        } else {
+            this.setState({
+                pwdCheck: false,
+            })
+        }
     }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import style from './index.less';
 //引入路由需要的组件
 import { Link,Switch } from 'dva/router';
-import SubRoutes,{ RedirectRoute, NoMacthRoute }from '../../utils/SubRoutes';
+import SubRoutes,{ RedirectRoute }from '../../utils/SubRoutes';
 
 
 export default class extends Component {
