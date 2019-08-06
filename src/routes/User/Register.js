@@ -10,7 +10,7 @@ export default class extends Component {
                 <img src={Icon} alt=""/>
                 <Form className="account-from" >
                 <div>
-                    <p>邮箱：</p>
+                    <p>邮箱：haha</p>
                     <input type="text"/>
                 </div>
                     {/* <Form.Item label="邮箱">
