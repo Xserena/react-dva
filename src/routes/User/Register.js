@@ -2,13 +2,16 @@ import React, { Component, PureComponent } from 'react';
 // import {Form, Input, Button} from 'antd';
 import Icon from 'Assets/icon.png';
 import style from './account.less';
-import { validEmpty } from './validate'
+import { validEmpty } from '../../utils/Validate'
+import { Form } from 'antd';
+// import Request from '../../utils/Request'
 
-export default class extends PureComponent {
+class index extends PureComponent {
     state = {
         emailEmpty: false,
         pwdEmpty: false,
         pwdCheck: false,
+        shouldLogin:false,
     }
     render() {
         return (
@@ -84,5 +87,19 @@ export default class extends PureComponent {
                 pwdCheck: false,
             })
         }
+        if (validEmpty(email) || validEmpty(pwd) || pwd !== checkPwd) {
+            return
+        } else {
+            this.setState({
+                shouldLogin: true,
+            },() => {
+                this.next()
+            })
+        }
+    }
+    next = () => {
+        this.props.history.push('/login')
     }
 }
+
+export default Form.create()(index);

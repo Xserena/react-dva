@@ -1,9 +1,46 @@
 import React,{Component} from 'react';
 import style from './index.less';
-import { Menu } from 'antd';
+import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'dva/router';
+import { getItem } from '../../utils/Server'
 
 const {header, logo, left, login, register} = style;
+const menus = [
+    {
+        key: "home",
+        to: '/home',
+        text:'主页'
+    },
+    {
+        key: "menus",
+        to: '/menus',
+        text:'菜单'
+    },
+    {
+        key: "admin",
+        to: '/admin',
+        text:'管理'
+    },
+    {
+        key: "about",
+        to: '/about',
+        text:'关于我们'
+    },
+    {
+        key: "login",
+        to: '/login',
+        text:'登录',
+        className: login,
+        isAuthority:true
+    },
+    {
+        key: "register",
+        to: '/register',
+        text:'注册',
+        className: register,
+        isAuthority:true
+    }
+]
 
 export default class NavBar extends Component {
     constructor(props){
@@ -32,8 +69,18 @@ export default class NavBar extends Component {
             selectedKeys:[key]
         })
     }
+
+    menu = (
+        <Menu>
+          <Menu.Item key="logout">
+            <span>退出</span>
+          </Menu.Item>
+        </Menu>
+      );
+
     render() {       //使用class的组件要用render渲染
         // console.log(this.props.location.pathname.split('/')[1])
+        const users=JSON.parse(getItem('users'));
         return (
             <nav className={header}>
                 <a className={logo}>
@@ -59,13 +106,24 @@ export default class NavBar extends Component {
                     </svg>
                 </a>
                 <Menu className={left} mode='horizontal' defaultSelectedKeys={["home"]} selectedKeys={this.state.selectedKeys}>
-                    <Menu.Item key={"home"}><Link to='/home'>主页</Link></Menu.Item>
-                    <Menu.Item key={"menus"}><Link to='menus'>菜单</Link></Menu.Item>
-                    <Menu.Item key={"admin"}><Link to='admin'>管理</Link></Menu.Item>
-                    <Menu.Item key={"about"}><Link to='about'>关于我们</Link></Menu.Item>
-                    <Menu.Item key={"login"} className={login}><Link to='login'>登录</Link></Menu.Item>
-                    <Menu.Item key={"register"} className={register}><Link to='register'>注册</Link></Menu.Item>
+                    {
+                        menus.filter(({isAuthority}) => 
+                            !(isAuthority && localStorage.users)
+                        ).map(({key,to,text,className}) => (
+                            <Menu.Item key={key} className={className}><Link to={to}>{text}</Link></Menu.Item> 
+                        ))
+                    }
                 </Menu> 
+                    {
+                      localStorage.users && (
+                        <Dropdown overlay={this.menu} className={style['dropdown-menu']}>
+                        <a className="ant-dropdown-link" href="#">
+                          <span className={style.email}>{users[0].email}</span> 
+                          <Icon type="down" className={style.icon}/>
+                        </a>
+                      </Dropdown>
+                      )
+                    }
             </nav>
         )
     }

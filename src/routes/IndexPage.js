@@ -13,7 +13,7 @@ const { layout, header, content} = styles;
 
 function IndexPage(props) {
   const { routes, app } = props;
-  console.log(props);
+  // console.log(props);
   return(
     <Layout className={layout}>
       <Header className={header}>

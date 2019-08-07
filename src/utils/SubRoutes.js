@@ -13,7 +13,7 @@ dynamic({
     // console.log(isAuthority)
     if (isAuthority) {
         //判断userInfo.id是否有内容
-        if (!userInfo.id) {
+        if (!localStorage.users) {
             return () => <Redirect to='/login'/>
         }
     }
@@ -30,7 +30,7 @@ function SubRoutes({
     isAuthority,
     userInfo
 }){
-    console.log(userInfo);
+    // console.log(userInfo);
     return (
         <Route component={dynamicComponent(routes, app, model, component, isAuthority, userInfo)}/>
     )
