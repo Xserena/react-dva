@@ -5,7 +5,7 @@ import Icon from 'Assets/icon.png';
 import style from './account.less'
 import { validEmpty } from '../../utils/Validate'
 import { addItem, clearItem, getItem } from '../../utils/Server'
-import example from '../../models/example';
+// import example from '../../models/example';
 
 @connect()
 class index extends Component {

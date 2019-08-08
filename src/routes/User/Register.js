@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 // import {Form, Input, Button} from 'antd';
 import Icon from 'Assets/icon.png';
 import style from './account.less';

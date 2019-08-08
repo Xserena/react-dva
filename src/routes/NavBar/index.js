@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import style from './index.less';
 import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'dva/router';
-import { getItem } from '../../utils/Server'
+import { getItem, clearItem } from '../../utils/Server'
 
 const {header, logo, left, login, register} = style;
 const menus = [
@@ -70,8 +70,15 @@ export default class NavBar extends Component {
         })
     }
 
+    handleExit = ({key}) => {
+        if (key==='logout') {
+            clearItem();
+            this.props.history.push('/login')
+        }
+    }
+
     menu = (
-        <Menu>
+        <Menu onClick={this.handleExit}>
           <Menu.Item key="logout">
             <span>退出</span>
           </Menu.Item>
@@ -117,7 +124,7 @@ export default class NavBar extends Component {
                     {
                       localStorage.users && (
                         <Dropdown overlay={this.menu} className={style['dropdown-menu']}>
-                        <a className="ant-dropdown-link" href="#">
+                        <a className="ant-dropdown-link">
                           <span className={style.email}>{users[0].email}</span> 
                           <Icon type="down" className={style.icon}/>
                         </a>
